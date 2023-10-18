@@ -67,6 +67,23 @@ class MongoDB {
     // We set the coins back to 100 to the player with the id
     this.client.db("FULL").collection("User").updateOne({ user: id }, { $set: { coins: 100 } });
   }
+
+  // Add contact
+  async addContact(req) {
+    const user = req.user;
+    const contact = req.contact;
+
+    // We get the user data
+    const userData = await this.getUserData(user);
+
+    // We add the contact
+    userData.addContact(contact);
+
+    // We update the user data
+    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { contacts: userData.contacts } });
+
+    return userData;
+  }
 }
 
 // Singleton

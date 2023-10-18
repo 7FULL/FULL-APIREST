@@ -1,15 +1,20 @@
 class UserData{
-    constructor(contacts, coin){
+    constructor(contacts, coins, user){
         if (contacts == null) {
             contacts = [];
         }
     
-        if (coin == null || coin < 0) {
-            coin = -1;
+        if (coins == null || coins < 0) {
+            coins = -1;
         }
 
         this.contacts = contacts;
-        this.coin = coin;
+        this.coins = coins;
+        this.user = user;
+    }
+
+    addContact(contact){
+        this.contacts.push(contact);
     }
 }
 

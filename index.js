@@ -5,7 +5,7 @@ const MongoDBSingleton = require('./BBDD/MongoDB');
 const BBDD = new MongoDBSingleton().getInstance();
 
 const app = express();
-const port = 3000;
+const port = 1234;
 
 app.use(bodyParser.json());
 
@@ -31,4 +31,11 @@ app.post('/api/user/restore', (req, res) => {
   BBDD.resetUserData(req.body.data);
 
   return "ok";
+});
+
+// Add contact
+app.post('/api/contact', (req, res) => {
+  BBDD.addContact(req.body.data).then((data) => {
+    res.send(data);
+  });
 });
