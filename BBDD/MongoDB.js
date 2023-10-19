@@ -84,6 +84,23 @@ class MongoDB {
 
     return userData;
   }
+
+  // Remove contact
+  async removeContact(req) {
+    const user = req.user;
+    const contact = req.contact;
+
+    // We get the user data
+    const userData = await this.getUserData(user);
+
+    // We remove the contact
+    userData.removeContact(contact);
+
+    // We update the user data
+    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { contacts: userData.contacts } });
+
+    return userData;
+  }
 }
 
 // Singleton

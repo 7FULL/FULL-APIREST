@@ -5,7 +5,7 @@ const MongoDBSingleton = require('./BBDD/MongoDB');
 const BBDD = new MongoDBSingleton().getInstance();
 
 const app = express();
-const port = 1234;
+const port = 3000;
 
 app.use(bodyParser.json());
 
@@ -30,12 +30,19 @@ app.post('/api/user', (req, res) => {
 app.post('/api/user/restore', (req, res) => {
   BBDD.resetUserData(req.body.data);
 
-  return "ok";
+  return "OK";
 });
 
 // Add contact
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact/add', (req, res) => {
   BBDD.addContact(req.body.data).then((data) => {
+    res.send(data);
+  });
+});
+
+// Remove contact
+app.post('/api/contact/remove', (req, res) => {
+  BBDD.removeContact(req.body.data).then((data) => {
     res.send(data);
   });
 });

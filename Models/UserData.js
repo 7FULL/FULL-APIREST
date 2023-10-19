@@ -16,6 +16,14 @@ class UserData{
     addContact(contact){
         this.contacts.push(contact);
     }
+
+    removeContact(contact){
+        const index = this.contacts.indexOf(contact);
+
+        if (index > -1) {
+            this.contacts.splice(index, 1);
+        }
+    }
 }
 
 module.exports = UserData;
