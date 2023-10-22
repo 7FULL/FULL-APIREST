@@ -19,7 +19,6 @@ class User:
             "phone": self.phone,
             "status": self.status,
             "emailVerified": False,
-            "profile": "",
             "description": "",
             "token": ""
         }
@@ -32,7 +31,6 @@ class User:
             "phone": self.phone,
             "status": self.status,
             "emailVerified": False,
-            "profile": "",
             "description": "",
             "token": "",
             "streamkey": keyStream

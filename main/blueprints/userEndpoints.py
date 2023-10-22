@@ -220,7 +220,6 @@ def updateProfile(username):
     else:
         return ret("No se ha enviado ningun archivo", 404)
 
-
 @user.route('/api/users/password/<string:username>', methods=['PUT'])
 def updatePassword(username):
     oldPassword = request.json['oldPassword']
