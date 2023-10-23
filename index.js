@@ -40,9 +40,9 @@ app.post('/api/contact/add', (req, res) => {
   });
 });
 
-// Remove contact
-app.post('/api/contact/remove', (req, res) => {
-  BBDD.removeContact(req.body.data).then((data) => {
-    res.send(data);
+// Update objects
+app.post('/api/objects/update', (req, res) => {
+  BBDD.updateObjects(req.body.data).then((data) => {
+    return "OK";
   });
 });

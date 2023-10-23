@@ -1,7 +1,11 @@
 class UserData{
-    constructor(contacts, coins, user){
+    constructor(contacts, coins, user, items){
         if (contacts == null) {
             contacts = [];
+        }
+
+        if (items == null) {
+            items = [];
         }
     
         if (coins == null || coins < 0) {
@@ -11,6 +15,7 @@ class UserData{
         this.contacts = contacts;
         this.coins = coins;
         this.user = user;
+        this.items = items;
     }
 
     addContact(contact){

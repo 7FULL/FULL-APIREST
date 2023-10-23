@@ -49,7 +49,8 @@ class MongoDB {
       const newUser = {
         user: user,
         contacts: [],
-        coins: 100
+        coins: 100,
+        objects: []
       };
 
       await this.client.db("FULL").collection("User").insertOne(newUser);
@@ -85,19 +86,18 @@ class MongoDB {
     return userData;
   }
 
-  // Remove contact
-  async removeContact(req) {
+  // Update objects
+  async updateObjects(req) {
     const user = req.user;
-    const contact = req.contact;
+    const objects = req.data;
+
+    console.log(objects);
 
     // We get the user data
     const userData = await this.getUserData(user);
 
-    // We remove the contact
-    userData.removeContact(contact);
-
     // We update the user data
-    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { contacts: userData.contacts } });
+    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { objects: objects } });
 
     return userData;
   }
