@@ -181,10 +181,12 @@ def updatePhone(username):
 def updateProfile(username):
     if 'profile' in request.files:
         try:
-            os.remove("users/" + username)  # Eliminar el archivo antiguo
+            #Comprobamos que existe un archivo en usuarios
+            if os.path.exists("users/" + username):
+                os.remove("users/" + username)  # Eliminar el archivo antiguo
 
             file = request.files['profile']
-            filename = username
+            filename = file.filename
 
             if filename == '':  # Nombre de archivo vacio
                 return ret("El nombre del archivo no puede estar vacio", 400)
@@ -203,11 +205,11 @@ def updateProfile(username):
             if size > max_size:
                 return ret("El tamaño maximo permitido es de 5MB", 413)
 
-            file.save("users/" + filename)  # Guardar el archivo en la carpeta users
+            file.save("users/" + username+filename)  # Guardar el archivo en la carpeta users
 
             try:
                 connector.client.FULL.users.update_one({"username": username},
-                                                       {"$set": {"profile": username + "." + extension}})
+                                                       {"$set": {"profile": username+filename}})
 
                 return ret("Foto del usuario " + username + " actualizada correctamente")
 
@@ -249,21 +251,33 @@ def updatePassword(username):
         return ret("Error al actualizar la contraseña del usuario " + username, 500, str(e))
 
 
-@user.route('/api/users/profile/<string:username>', methods=['GET'])
-def getProfile(username):
+@user.route('/api/users/profile/<string:email>', methods=['GET'])
+def getProfile(email):
     directory = "users/"
-    filename = username
+
+    filename = ""
+
+    #Obtenemos el nombre del archivo de la base de datos
+    try:
+        result = connector.client.FULL.users.find_one({"email": email})
+
+        if result:
+            filename = result['profile']
+        else:
+            return ret("No existe el usuario " + email, 404)
+
+    except Exception as e:
+        return ret("Error al obtener la informacion del usuario " + email, 500, str(e))
 
     try:
-        allowed_extensions = {'png', 'jpg', 'jpeg'}
-        for extension in allowed_extensions:
-            if os.path.exists(directory + filename + "." + extension):
-                return send_file(directory + filename + "." + extension)
+
+        if os.path.exists(directory + filename):
+            return send_file(directory + filename)
         else:
             return ret("No existe el perfil del usuario " + filename, 404)
 
     except Exception as e:
-        return ret("Error al obtener la foto de perfil del usuario " + username, 500, str(e))
+        return ret("Error al obtener la foto de perfil del usuario con email: " + email, 500, str(e))
 
 
 @user.route('/api/users/description/<string:username>', methods=['PUT'])

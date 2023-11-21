@@ -8,6 +8,7 @@ class EmailManager:
         api_secret = '3baef8ff9b8cd415598284268992c1b3'
         self.mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
+
     def sendEmail(self, email, name, subject, text):
         data = {
             'Messages': [
