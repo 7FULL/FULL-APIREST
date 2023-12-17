@@ -91,8 +91,6 @@ class MongoDB {
     const user = req.user;
     const objects = req.data;
 
-    console.log(objects);
-
     // We get the user data
     const userData = await this.getUserData(user);
 

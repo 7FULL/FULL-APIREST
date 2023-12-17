@@ -26,7 +26,7 @@ app.post('/api/user', (req, res) => {
   });
 });
 
-//User Data
+//Reset user Data
 app.post('/api/user/restore', (req, res) => {
   BBDD.resetUserData(req.body.data);
 
