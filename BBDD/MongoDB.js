@@ -50,7 +50,7 @@ class MongoDB {
         user: user,
         contacts: [],
         coins: 100,
-        objects: []
+        items: []
       };
 
       await this.client.db("FULL").collection("User").insertOne(newUser);
@@ -81,7 +81,7 @@ class MongoDB {
     userData.addContact(contact);
 
     // We update the user data
-    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { contacts: userData.contacts } });
+    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { items: userData.contacts } });
 
     return userData;
   }
@@ -95,7 +95,7 @@ class MongoDB {
     const userData = await this.getUserData(user);
 
     // We update the user data
-    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { objects: objects } });
+    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { items: objects } });
 
     return userData;
   }
