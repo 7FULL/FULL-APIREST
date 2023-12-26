@@ -58,9 +58,7 @@ class MongoDB {
       return new UserData([], 100);
     }
 
-    const userData = new UserData(result.contacts, result.coin);
-    
-    return userData;
+    return new UserData(result.contacts, result.coin, result.user, result.items);
   }
 
   // Reset User Data
