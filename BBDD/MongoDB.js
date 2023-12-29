@@ -63,8 +63,8 @@ class MongoDB {
 
   // Reset User Data
   resetUserData(id){
-    // We set the coins back to 100 to the player with the id
-    this.client.db("FULL").collection("User").updateOne({ user: id }, { $set: { coins: 100 } });
+    // We set the coins back to 100 to the player with the id and we delete all the items
+    this.client.db("FULL").collection("User").updateOne({ user: id }, { $set: { coins: 100, items: [] } });
   }
 
   // Add contact
