@@ -1,8 +1,8 @@
 // We start express
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoDBSingleton = require('./BBDD/MongoDB');
-const BBDD = new MongoDBSingleton().getInstance();
+const { MongoDB } = require('./BBDD/MongoDB');
+const BBDD = new MongoDB()
 
 const app = express();
 const port = 3000;
@@ -42,14 +42,14 @@ app.post('/api/contact/add', (req, res) => {
 
 // Update objects
 app.post('/api/objects/update', (req, res) => {
-  BBDD.updateObjects(req.body.data);
+  BBDD.updateObjects(req.body.data).then(r => {});
 
   return "OK";
 });
 
 // Update coins
 app.post('/api/coins/update', (req, res) => {
-  BBDD.updateCoins(req.body.data);
+  BBDD.updateCoins(req.body.data).then(r => {});
 
   return "OK";
 });

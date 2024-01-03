@@ -113,17 +113,6 @@ class MongoDB {
     }
 }
 
-// Singleton
-class MongoDBSingleton {
-  constructor() {
-    if (!MongoDBSingleton.instance) {
-      MongoDBSingleton.instance = new MongoDB();
-    }
-  }
-
-  getInstance() {
-    return MongoDBSingleton.instance;
-  }
+module.exports = {
+    MongoDB
 }
-
-module.exports = MongoDBSingleton;
