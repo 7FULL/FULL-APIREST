@@ -42,7 +42,14 @@ app.post('/api/contact/add', (req, res) => {
 
 // Update objects
 app.post('/api/objects/update', (req, res) => {
-  BBDD.updateObjects(req.body.data).then((data) => {
-    return "OK";
-  });
+  BBDD.updateObjects(req.body.data);
+
+  return "OK";
+});
+
+// Update coins
+app.post('/api/coins/update', (req, res) => {
+  BBDD.updateCoins(req.body.data);
+
+  return "OK";
 });

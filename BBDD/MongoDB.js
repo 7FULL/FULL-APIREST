@@ -79,7 +79,7 @@ class MongoDB {
     userData.addContact(contact);
 
     // We update the user data
-    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { items: userData.contacts } });
+    await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { contacts: userData.contacts } });
 
     return userData;
   }
@@ -97,6 +97,20 @@ class MongoDB {
 
     return userData;
   }
+
+    // Update coins
+    async updateCoins(req) {
+      const user = req.user;
+      const coins = req.data;
+
+      // We get the user data
+      const userData = await this.getUserData(user);
+
+      // We update the user data
+      await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { coins: coins } });
+
+      return userData;
+    }
 }
 
 // Singleton
