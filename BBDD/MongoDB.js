@@ -58,7 +58,25 @@ class MongoDB {
       return new UserData([], 100);
     }
 
-    return new UserData(result.contacts, result.coins, result.user, result.items);
+    let streamKey = "";
+
+    // Because we have added a new field to the user data we need to check if the user has the field
+    if (result.streamKey == null) {
+        // We generate the stream key
+        streamKey = this.generateStreamKey();
+
+        // We add the field
+        await this.client.db("FULL").collection("User").updateOne({ user: user }, { $set: { streamKey: streamKey } });
+    }else{
+        // We get the stream key
+        streamKey = result.streamKey;
+    }
+
+    return new UserData(result.contacts, result.coins, result.user, result.items, streamKey);
+  }
+
+  generateStreamKey(){
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
   // Reset User Data

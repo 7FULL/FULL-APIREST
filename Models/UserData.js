@@ -1,5 +1,5 @@
 class UserData{
-    constructor(contacts, coins, user, items){
+    constructor(contacts, coins, user, items, streamKey){
         if (contacts == null) {
             contacts = [];
         }
@@ -12,10 +12,15 @@ class UserData{
             coins = -1;
         }
 
+        if (streamKey == null) {
+            streamKey = this.generateStreamKey();
+        }
+
         this.contacts = contacts;
         this.coins = coins;
         this.user = user;
         this.items = items;
+        this.streamKey = streamKey;
     }
 
     addContact(contact){
@@ -28,6 +33,10 @@ class UserData{
         if (index > -1) {
             this.contacts.splice(index, 1);
         }
+    }
+
+    generateStreamKey(){
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 }
 
