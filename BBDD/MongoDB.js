@@ -72,7 +72,30 @@ class MongoDB {
         streamKey = result.streamKey;
     }
 
-    return new UserData(result.contacts, result.coins, result.user, result.items, streamKey);
+    let topContacts = [];
+
+    //We generate a list of five contacts with the most coins searching in the DB with the id
+    for ( let i = 0; i < result.contacts.length; i++) {
+      const contact = result.contacts[i];
+      const contactData = await this.client.db("FULL").collection("User").findOne({ user: contact.id });
+
+      if (contactData != null) {
+        topContacts.push({
+          name: contact.name,
+          coins: contactData.coins
+        });
+      }
+    }
+
+    // We sort the list
+    topContacts.sort((a, b) => {
+      return b.coins - a.coins;
+    });
+
+    // We get the first five elements
+    topContacts = topContacts.slice(0, 5);
+
+    return new UserData(result.contacts, result.coins, result.user, result.items, streamKey, topContacts);
   }
 
   generateStreamKey(){

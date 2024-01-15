@@ -6,7 +6,7 @@ const BBDD = new MongoDB()
 
 const app = express();
 const port = 3000;
-//DIUHFUALAPRUEBAS
+
 app.use(bodyParser.json());
 
 // Start the server
