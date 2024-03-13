@@ -41,6 +41,8 @@ class MongoDB {
   async getUserData(req) {
     const user = req;
 
+    console.log("Getting user data: " + user + " ...")
+
     const result = await this.client.db("FULL").collection("User").findOne({ user: user });
 
     // Convert tu userdata
@@ -56,6 +58,31 @@ class MongoDB {
       await this.client.db("FULL").collection("User").insertOne(newUser);
     
       return new UserData([], 100);
+    }
+
+    // If the contacts of the user doesnt have this username added we delete them from the list
+    for ( let i = 0; i < result.contacts.length; i++) {
+        const contact = result.contacts[i];
+        const contactData = await this.client.db("FULL").collection("User").findOne({ user: contact.id });
+
+        // We look for our user in the contacts of the contact
+        let found = false;
+
+        for ( let j = 0; j < contactData.contacts.length; j++) {
+            if (!found){
+              const contactContact = contactData.contacts[j];
+
+              if (contactContact.id === user) {
+                found = true;
+              }
+            }
+        }
+
+        // If we dont find our user in the contacts of the contact we delete it from our list
+        if (!found) {
+            result.contacts.splice(i, 1);
+            i--;
+        }
     }
 
     let streamKey = "";
@@ -152,6 +179,14 @@ class MongoDB {
 
       return userData;
     }
+
+  //We get the first user in the DB
+  //TODO: Borrar esto tambien
+  async getExample() {
+    const result = await this.client.db("FULL").collection("User").findOne({});
+
+    return result;
+  }
 }
 
 module.exports = {

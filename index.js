@@ -9,6 +9,15 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
+//TODO: Desactivar esto
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
@@ -22,6 +31,12 @@ app.get('/api/ping', (req, res) => {
 //User Data
 app.post('/api/user', (req, res) => {
   BBDD.getUserData(req.body.data).then((data) => {
+    res.send(data);
+  });
+});
+
+app.get('/api/user/example', (req, res) => {
+  BBDD.getExample().then((data) => {
     res.send(data);
   });
 });
